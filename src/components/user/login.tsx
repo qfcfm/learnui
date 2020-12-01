@@ -1,19 +1,19 @@
-import { Modal, Button, Form, Input, Space, Menu, Dropdown, notification } from 'antd';
-import { UserOutlined, LockOutlined, DownOutlined } from '@ant-design/icons';
 import React, { useEffect } from 'react';
-import MD5 from 'crypto-js/md5';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import * as actionTypes from '../../store/ActionTyps';
+import MD5 from 'crypto-js/md5';
 import { CancelTokenSource } from 'axios';
 import { api_cancel, api_init, api_login, api_logout } from '../../axios/api';
-import * as actionTypes from '../../store/ActionTyps';
-import { User } from '../../store/DataInterface';
-import { Dispatch } from 'redux';
+import { Modal, Button, Form, Input, Space, Menu, Dropdown, notification } from 'antd';
+import { UserOutlined, LockOutlined, DownOutlined } from '@ant-design/icons';
 import * as CSS from 'csstype';
+import { IUserInfo } from '../../store/DataInterface';
 import qf_websocket from './websocket';
 
 interface ILoginProps {
-    user: User,
-    loginDispatch: (user: User) => void;
+    user: IUserInfo,
+    loginDispatch: (user: IUserInfo) => void;
 }
 
 const username: CSS.Properties = {
@@ -44,7 +44,7 @@ const Login = ({ user, loginDispatch }: ILoginProps) => {
         source = value;
     }
 
-    const loginchg = (user: User) => {
+    const loginchg = (user: IUserInfo) => {
         console.info("用户登录信息变化!");
         loginDispatch(user);
         if (user.name !== "") {
@@ -170,10 +170,9 @@ const Login = ({ user, loginDispatch }: ILoginProps) => {
         }
     }
 
-    const ll = userInfo();
     return (
         <>
-            {ll}
+            {userInfo()}
             <Modal
                 title="登录"
                 centered={true}
@@ -211,7 +210,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        loginDispatch: (user: User) => {
+        loginDispatch: (user: IUserInfo) => {
             dispatch({ type: actionTypes.LOGIN_CHANGE, user });
         }
     }

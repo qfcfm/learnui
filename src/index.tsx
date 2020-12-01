@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import Home from './components/home';
+import MainFrame from './components/mainfrm';
 import reportWebVitals from './reportWebVitals';
 import reducers from './store/reducers';
 
 const store = createStore(reducers);
-//console.log(store.getState())
+console.log(store.getState())
 ReactDOM.render(
   <Provider store={store}>
-    <Home />
+    <MainFrame />
   </Provider>,
   document.getElementById('root')
 );

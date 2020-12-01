@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { PageModule } from "../store/DataInterface";
+import { IPageInfo } from "../store/DataInterface";
 import * as actionTypes from '../store/ActionTyps';
 import { api_initmenu } from "../axios/api";
 import * as CSS from 'csstype';
@@ -12,7 +12,7 @@ const { SubMenu } = Menu;
 
 interface IMenuProps {
     state: any,
-    modelDispatch: (page: PageModule) => void;
+    modelDispatch: (page: IPageInfo) => void;
 }
 
 const menuback: CSS.Properties = {
@@ -27,6 +27,7 @@ const MenuContent = ({ state, modelDispatch }: IMenuProps) => {
     const initmenu = () => {
         if (state.user.name === "") {
             setMenu([]);
+            modelDispatch({ name: "" });
         } else {
             api_initmenu(null, (success, rsp) => {
                 if (success && rsp != null) {
@@ -41,6 +42,7 @@ const MenuContent = ({ state, modelDispatch }: IMenuProps) => {
     const handleClick = (e: any) => {
         console.log('click ', e);
         setMod(e.key);
+        modelDispatch({ name: e.key });
     };
 
     const getchildmenu = (param: any) => {
@@ -69,7 +71,7 @@ const MenuContent = ({ state, modelDispatch }: IMenuProps) => {
         }
         let menutmp = menu;
         return (
-            <Menu style={menuback} onClick={handleClick} selectedKeys={[curmod]} mode="horizontal">
+            <Menu style={menuback} onClick={handleClick} selectedKeys={[curmod]} mode="horizontal" >
                 {
                     menutmp.map((item: any, index: any) => {
                         return getchildmenu(item);
@@ -92,7 +94,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        modelDispatch: (page: PageModule) => {
+        modelDispatch: (page: IPageInfo) => {
             dispatch({ type: actionTypes.MODULE_CHANGE, mod: page });
         }
     }
