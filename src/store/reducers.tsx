@@ -11,6 +11,7 @@ const initState: IStateInfo = {
     //当前content显示页        
     curmod: {
         name: "",
+        compent: "",
     },
 }
 

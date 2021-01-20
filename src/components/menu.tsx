@@ -27,7 +27,8 @@ const MenuContent = ({ state, modelDispatch }: IMenuProps) => {
     const initmenu = () => {
         if (state.user.name === "") {
             setMenu([]);
-            modelDispatch({ name: "" });
+            setMod("");
+            modelDispatch({ name: "", compent: "" });
         } else {
             api_initmenu(null, (success, rsp) => {
                 if (success && rsp != null) {
@@ -42,7 +43,7 @@ const MenuContent = ({ state, modelDispatch }: IMenuProps) => {
     const handleClick = (e: any) => {
         console.log('click ', e);
         setMod(e.key);
-        modelDispatch({ name: e.key });
+        modelDispatch({ name: e.key, compent: e.item.props["data-compent"] });
     };
 
     const getchildmenu = (param: any) => {
@@ -58,7 +59,7 @@ const MenuContent = ({ state, modelDispatch }: IMenuProps) => {
             );
         } else {
             return (
-                <Menu.Item key={param.name} >
+                <Menu.Item key={param.name} data-compent={param.compent}>
                     {param.name}
                 </Menu.Item>
             );

@@ -8,6 +8,7 @@ export interface IUserInfo {
 //显示页相关信息
 export interface IPageInfo {
     name: string,
+    compent: string,
 }
 
 export interface IStateInfo {

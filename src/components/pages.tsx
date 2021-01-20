@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { IPageInfo } from "../store/DataInterface";
-import FirstPage from "./pages/firstpage";
 import Home from "./pages/home";
+import FirstPage from "./pages/firstpage";
 
 interface ILoginProps {
     curmod: IPageInfo,
@@ -11,8 +11,8 @@ interface ILoginProps {
 const Pages = ({ curmod }: ILoginProps) => {
 
     const switchmod = () => {
-        switch (curmod.name) {
-            case "1-1-1":
+        switch (curmod.compent) {
+            case "FirstPage":
                 return <FirstPage />;
             default:
                 return <Home />

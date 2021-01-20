@@ -36,7 +36,6 @@ const Login = ({ user, loginDispatch }: ILoginProps) => {
     const [visible, setVisible] = React.useState(false);
     const [confirmLoading, setConfirmLoading] = React.useState(false);
     const [form] = Form.useForm();
-    const [init] = React.useState(true);
 
     let source: CancelTokenSource | null = null;
 
@@ -82,7 +81,8 @@ const Login = ({ user, loginDispatch }: ILoginProps) => {
         });
     }
 
-    useEffect(inituser, [init]);
+    //第二个参数传入空,表示只执行一次inituser
+    useEffect(inituser, []);
 
     //调用登录接口
     const Login = (param: any) => {
