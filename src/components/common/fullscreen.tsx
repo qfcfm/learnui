@@ -20,7 +20,7 @@ export default class FullScreen extends Component<any>{
     //进入全屏
     requestFullScreen = () => {
         let de: any
-        de = document.getElementById('root');
+        de = document.body;
         if (de.requestFullscreen) {
             de.requestFullscreen();
         } else if (de.mozRequestFullScreen) {

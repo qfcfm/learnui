@@ -1,23 +1,15 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { IPageInfo } from "../store/DataInterface";
-import * as actionTypes from '../store/ActionTyps';
-import { api_initmenu } from "../axios/api";
-import * as CSS from 'csstype';
 import { Menu } from 'antd';
-import '../style/home.less'
+import { IPageInfo, IStateInfo } from "store/DataInterface";
+import * as actionTypes from 'store/ActionTyps';
+import { api_initmenu } from "axios/api";
 
 const { SubMenu } = Menu;
-
 interface IMenuProps {
-    state: any,
+    state: IStateInfo,
     modelDispatch: (page: IPageInfo) => void;
-}
-
-const menuback: CSS.Properties = {
-    background: 'none',
-    borderBottom: 'none',
 }
 
 const MenuContent = ({ state, modelDispatch }: IMenuProps) => {
@@ -25,10 +17,10 @@ const MenuContent = ({ state, modelDispatch }: IMenuProps) => {
     const [curmod, setMod] = React.useState("");
 
     const initmenu = () => {
-        if (state.user.name === "") {
+        setMod("首页");
+        if (state.user.name === undefined || state.user.name === "") {
             setMenu([]);
-            setMod("");
-            modelDispatch({ name: "", compent: "" });
+            modelDispatch({});
         } else {
             api_initmenu(null, (success, rsp) => {
                 if (success && rsp != null) {
@@ -43,23 +35,35 @@ const MenuContent = ({ state, modelDispatch }: IMenuProps) => {
     const handleClick = (e: any) => {
         console.log('click ', e);
         setMod(e.key);
-        modelDispatch({ name: e.key, compent: e.item.props["data-compent"] });
+        modelDispatch(e.item.props["data-compent"]);
     };
 
-    const getchildmenu = (param: any) => {
+    const getchildmenu = (param: IPageInfo, bTop: boolean = false) => {
         if (param.sub && param.sub.length !== 0) {
-            return (
-                <SubMenu key={param.name} title={param.name}>
-                    {
-                        param.sub.map((item: any, index: any) => {
-                            return getchildmenu(item);
-                        })
-                    }
-                </SubMenu>
-            );
+            if (bTop) {
+                return (
+                    <SubMenu key={param.name} title={param.name}>
+                        {
+                            param.sub.map((item: IPageInfo) => {
+                                return getchildmenu(item);
+                            })
+                        }
+                    </SubMenu>
+                );
+            } else {
+                return (
+                    <Menu.ItemGroup key={param.name} title={param.name}>
+                        {
+                            param.sub.map((item: IPageInfo) => {
+                                return getchildmenu(item);
+                            })
+                        }
+                    </Menu.ItemGroup>
+                );
+            }
         } else {
             return (
-                <Menu.Item key={param.name} data-compent={param.compent}>
+                <Menu.Item key={param.name} data-compent={param}>
                     {param.name}
                 </Menu.Item>
             );
@@ -72,10 +76,10 @@ const MenuContent = ({ state, modelDispatch }: IMenuProps) => {
         }
         let menutmp = menu;
         return (
-            <Menu style={menuback} onClick={handleClick} selectedKeys={[curmod]} mode="horizontal" >
+            <Menu onClick={handleClick} selectedKeys={[curmod]} mode="horizontal" >
                 {
-                    menutmp.map((item: any, index: any) => {
-                        return getchildmenu(item);
+                    menutmp.map((item: IPageInfo) => {
+                        return getchildmenu(item, true);
                     })
                 }
             </Menu >
@@ -89,14 +93,14 @@ const MenuContent = ({ state, modelDispatch }: IMenuProps) => {
     );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: IStateInfo) => {
     return { state };
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch: Dispatch<actionTypes.Action_Pagechg>) => {
     return {
         modelDispatch: (page: IPageInfo) => {
-            dispatch({ type: actionTypes.MODULE_CHANGE, mod: page });
+            dispatch({ type: actionTypes.PAGE_CHANGE, page });
         }
     }
 }

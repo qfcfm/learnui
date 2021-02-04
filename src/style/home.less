@@ -3,41 +3,35 @@
 .top-layout {
     width: 100%;
     height: 100%;
-}
-
-.top-layout .top-header {
-    background-color: #131F2B;
-}
-
-.top-header .top-logo {
-    width: 200px;
-    height: 72px;
-    background-image: url('../img/bxy.png');
-    float: left;
-}
-
-.top-header .top-menu {
-    height: 64px;
-    float: left;
-}
-
-.top-header .top-space {
-    height: 64px;
-    float: right;
-}
-
-.top-space .login {
-    width: 25px;
-    height: 25px;
-    background-image: url('../img/person.png');
-    visibility: visible;
-    border: 0px;
-    padding: 0px;
-}
-
-.top-space .full {
-    width: 25px;
-    height: 25px;
-    visibility: visible;
-    border: 0px;
+    .top-header {
+        background-color: #131F2B;
+        .top-logo {
+            width: 200px;
+            height: 72px;
+            background-image: url('@{image-path}/bxy.png');
+            float: left;
+        }
+        .top-menu {
+            height: 64px;
+            float: left;
+        }
+        .top-space {
+            height: 64px;
+            float: right;
+            .login {
+                width: 25px;
+                height: 25px;
+                background-image: url('@{image-path}/person.png');
+                visibility: visible;
+                border: 0px;
+                padding: 0px;
+            }
+            .full {
+                width: 25px;
+                height: 25px;
+                visibility: visible;
+                border: 0px;
+            }
+        }
+    }
 }

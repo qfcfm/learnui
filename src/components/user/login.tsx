@@ -8,7 +8,7 @@ import { api_cancel, api_init, api_login, api_logout } from '../../axios/api';
 import { Modal, Button, Form, Input, Space, Menu, Dropdown, notification } from 'antd';
 import { UserOutlined, LockOutlined, DownOutlined } from '@ant-design/icons';
 import * as CSS from 'csstype';
-import { IUserInfo } from '../../store/DataInterface';
+import { IStateInfo, IUserInfo } from '../../store/DataInterface';
 import qf_websocket from './websocket';
 
 interface ILoginProps {
@@ -54,7 +54,7 @@ const Login = ({ user, loginDispatch }: ILoginProps) => {
                     switch (jsonObj.type) {
                         case "userloginsite":
                             //异地登录
-                            loginDispatch({ name: "", role: "" });
+                            loginDispatch({});
                             openNotificationWithIcon('账号异地登录');
                             break;
                         case "userlogout":
@@ -62,7 +62,7 @@ const Login = ({ user, loginDispatch }: ILoginProps) => {
                             break;
                         case "timeout":
                             //会话超时
-                            loginDispatch({ name: "", role: "" });
+                            loginDispatch({});
                             openNotificationWithIcon('会话过期');
                             break;
                     }
@@ -104,7 +104,7 @@ const Login = ({ user, loginDispatch }: ILoginProps) => {
     //调用退出登录
     const LogOut = () => {
         api_logout(null, (success) => {
-            loginchg({ name: "", role: "" });
+            loginchg({});
         });
     }
     //提交登录
@@ -152,7 +152,7 @@ const Login = ({ user, loginDispatch }: ILoginProps) => {
     );
 
     const userInfo = () => {
-        if (user != null && user.name !== "") {
+        if (user.name !== undefined && user.name !== "") {
             return (
                 <Space align="center">
                     <Button className="login"><span></span></Button>
@@ -202,16 +202,16 @@ const Login = ({ user, loginDispatch }: ILoginProps) => {
     );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: IStateInfo) => {
     return {
-        user: state.user,
+        user: state.user === undefined ? {} : state.user,
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch: Dispatch<actionTypes.Action_User>) => {
     return {
         loginDispatch: (user: IUserInfo) => {
-            dispatch({ type: actionTypes.LOGIN_CHANGE, user });
+            dispatch({ type: actionTypes.USER_CHANGE, user });
         }
     }
 }

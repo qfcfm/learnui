@@ -1,33 +1,44 @@
 import React from "react";
 import { connect } from "react-redux";
-import { IPageInfo } from "../store/DataInterface";
-import Home from "./pages/home";
-import FirstPage from "./pages/firstpage";
+import { IPageInfo, IStateInfo } from "store/DataInterface";
 
 interface ILoginProps {
-    curmod: IPageInfo,
+    page: IPageInfo,
 }
 
-const Pages = ({ curmod }: ILoginProps) => {
+const Pages = ({ page }: ILoginProps) => {
+    const switchPage = () => {
+        let Tag: any = null;
+        if (page.compent !== undefined && page.compent !== "") {
+            try {
+                Tag = require("./pages/" + page.compent);
+            } catch (error) {
+                Tag = require("./pages/ErrorPage");
+            }
 
-    const switchmod = () => {
-        switch (curmod.compent) {
-            case "FirstPage":
-                return <FirstPage />;
-            default:
-                return <Home />
+        } else {
+            Tag = require("./pages/HomePage");
+        }
+        return Tag.default;
+    }
+    const compentName = () => {
+        if (page.compent !== undefined && page.compent !== "") {
+            return page.compent;
+        } else {
+            return "Home";
         }
     }
+    const PageDetail = switchPage();
+    const PageName = compentName();
+
     return (
-        <>
-            {switchmod()}
-        </>
+        <PageDetail compentName={PageName} />
     );
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: IStateInfo) => {
     return {
-        curmod: state.curmod,
+        page: state.page === undefined ? { compent: "" } : state.page,
     }
 }
 

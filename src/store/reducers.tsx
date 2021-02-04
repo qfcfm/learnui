@@ -1,32 +1,21 @@
 import { combineReducers } from 'redux'
 import * as actionTypes from './ActionTyps'
-import { IStateInfo } from './DataInterface';
+import { IPageInfo, IUserInfo } from './DataInterface';
 
-const initState: IStateInfo = {
-    //用户信息
-    user: {
-        name: "",
-        role: "",
-    },
-    //当前content显示页        
-    curmod: {
-        name: "",
-        compent: "",
-    },
-}
-
-const user = (state = initState.user, action: actionTypes.Action_login) => {
+const user = (state: IUserInfo = {}, action: actionTypes.Action_User) => {
     switch (action.type) {
-        case actionTypes.LOGIN_CHANGE:
-            return Object.assign({}, state, action.user);
+        case actionTypes.USER_CHANGE:
+            return action.user;
+        default:
+            break;
     }
     return state;
 }
 
-const curmod = (state = initState.curmod, action: actionTypes.Action_modchg) => {
+const page = (state: IPageInfo = {}, action: actionTypes.Action_Pagechg) => {
     switch (action.type) {
-        case actionTypes.MODULE_CHANGE:
-            return Object.assign({}, state, action.mod);
+        case actionTypes.PAGE_CHANGE:
+            return action.page;
         default:
             break;
     }
@@ -35,5 +24,5 @@ const curmod = (state = initState.curmod, action: actionTypes.Action_modchg) => 
 
 export default combineReducers({
     user,
-    curmod
+    page
 })

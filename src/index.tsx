@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import MainFrame from './components/mainfrm';
 import reportWebVitals from './reportWebVitals';
 import reducers from './store/reducers';
+import './style/home.less'
 
 const store = createStore(reducers);
 console.log(store.getState())

@@ -1,5 +1,5 @@
 import axios, { CancelToken, CancelTokenSource } from 'axios';
-import { IUserInfo } from '../store/DataInterface';
+import { IUserInfo } from 'store/DataInterface';
 
 function post1(api: string, data: any, func: (success: boolean, rsp: string) => void) {
     return axios.post(api, data)
@@ -90,22 +90,30 @@ export const api_logout = (data: any, func: (success: boolean) => void) => {
 export const api_initmenu = (data: any, func: (success: boolean, rsp: any) => void) => {
     post1("/API/initmenu", data, (bSuc, json) => {
         let menu = [
-            { name: "首页", compent: "Home" },
+            { name: "首页", compent: "HomePage" },
             {
-                name: "测试1",
+                name: "功能1",
                 sub: [
                     {
-                        name: "1-1", sub: [
-                            { name: "1-1-1", compent: "FirstPage" },
-                            { name: "1-1-2", compent: "FirstPage" }
+                        name: "分组1", sub: [
+                            { name: "开发1", compent: "FirstPage" },
+                            { name: "开发2", compent: "SecondPage" }
                         ]
                     },
-                    { name: "1-2", compent: "FirstPage" }
+                    {
+                        name: "分组2", sub: [
+                            { name: "开发3", compent: "ThirdPage" },
+                            { name: "开发4", compent: "FourPage" }
+                        ]
+                    }
                 ]
             },
             {
-                name: "测试2",
-                sub: [{ name: "2-1", compent: "FirstPage" }, { name: "2-2", compent: "FirstPage" }]
+                name: "功能2",
+                sub: [
+                    { name: "测试1", compent: "APage" },
+                    { name: "测试2", compent: "BPage" }
+                ]
             }
         ];
         func(true, menu);
