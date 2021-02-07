@@ -18,12 +18,12 @@ const MenuContent = ({ state, modelDispatch }: IMenuProps) => {
 
     const initmenu = () => {
         setMod("首页");
-        if (state.user.name === undefined || state.user.name === "") {
+        if (!state.user.name) {
             setMenu([]);
             modelDispatch({});
         } else {
             api_initmenu(null, (success, rsp) => {
-                if (success && rsp != null) {
+                if (success && rsp) {
                     setMenu(rsp);
                 }
             });
@@ -39,7 +39,7 @@ const MenuContent = ({ state, modelDispatch }: IMenuProps) => {
     };
 
     const getchildmenu = (param: IPageInfo, bTop: boolean = false) => {
-        if (param.sub && param.sub.length !== 0) {
+        if (param.sub) {
             if (bTop) {
                 return (
                     <SubMenu key={param.name} title={param.name}>

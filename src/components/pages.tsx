@@ -9,7 +9,7 @@ interface ILoginProps {
 const Pages = ({ page }: ILoginProps) => {
     const switchPage = () => {
         let Tag: any = null;
-        if (page.compent !== undefined && page.compent !== "") {
+        if (page.compent) {
             try {
                 Tag = require("./pages/" + page.compent);
             } catch (error) {
@@ -22,7 +22,7 @@ const Pages = ({ page }: ILoginProps) => {
         return Tag.default;
     }
     const compentName = () => {
-        if (page.compent !== undefined && page.compent !== "") {
+        if (page.compent) {
             return page.compent;
         } else {
             return "Home";
@@ -38,7 +38,7 @@ const Pages = ({ page }: ILoginProps) => {
 
 const mapStateToProps = (state: IStateInfo) => {
     return {
-        page: state.page === undefined ? { compent: "" } : state.page,
+        page: state.page,
     }
 }
 

@@ -46,7 +46,7 @@ const Login = ({ user, loginDispatch }: ILoginProps) => {
     const loginchg = (user: IUserInfo) => {
         console.info("用户登录信息变化!");
         loginDispatch(user);
-        if (user.name !== "") {
+        if (user.name) {
             websocket.close();
             websocket.connection((msg: string) => {
                 let jsonObj = JSON.parse(msg);
@@ -75,7 +75,7 @@ const Login = ({ user, loginDispatch }: ILoginProps) => {
 
     const inituser = () => {
         api_init(null, (success, rsp) => {
-            if (success && rsp != null) {
+            if (success && rsp) {
                 loginchg(rsp);
             }
         });
@@ -89,7 +89,7 @@ const Login = ({ user, loginDispatch }: ILoginProps) => {
         setConfirmLoading(true);
         param.password = MD5(param.password).toString();
         let source = api_login(param, (success, rsp) => {
-            if (success && rsp != null) {
+            if (success && rsp) {
                 form.resetFields();
                 loginchg(rsp);
                 setVisible(false);
@@ -152,7 +152,7 @@ const Login = ({ user, loginDispatch }: ILoginProps) => {
     );
 
     const userInfo = () => {
-        if (user.name !== undefined && user.name !== "") {
+        if (user.name) {
             return (
                 <Space align="center">
                     <Button className="login"><span></span></Button>

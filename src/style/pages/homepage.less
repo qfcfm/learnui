@@ -3,9 +3,22 @@
 @home-page: ~'@{vrv-prefix}-home';
 
 .@{home-page} {
-    width: 100%;
-    height: 100%;
-    background-image: url('@{image-path}/index_bj.png');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-main {
+        //&:extend(~.@{home-page});
+        width: 1400px;
+        height: 800px;
+        background-image: url('@{image-path}/index_bj.png');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+
+        &-can {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #c3c3c3;
+        }
+    }
 }
