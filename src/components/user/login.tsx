@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/ActionTyps';
+import * as actionTypes from 'store/ActionTyps';
 import MD5 from 'crypto-js/md5';
 import { CancelTokenSource } from 'axios';
-import { api_cancel, api_init, api_login, api_logout } from '../../axios/api';
+import { api_cancel, api_init, api_login, api_logout } from 'axios/api';
 import { Modal, Button, Form, Input, Space, Menu, Dropdown, notification } from 'antd';
 import { UserOutlined, LockOutlined, DownOutlined } from '@ant-design/icons';
 import * as CSS from 'csstype';
-import { IStateInfo, IUserInfo } from '../../store/DataInterface';
-import qf_websocket from './websocket';
+import { IStateInfo, IUserInfo } from 'store/DataInterface';
+import qf_websocket from 'utils/websocket';
 
 interface ILoginProps {
     user: IUserInfo,
