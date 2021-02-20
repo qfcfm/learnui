@@ -1,0 +1,17 @@
+@import "../home.less";
+
+@first-page: ~'@{vrv-prefix}-firstpage';
+
+.@{first-page} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-main {
+        width: 1400px;
+        height: 800px;
+        background-image: url('@{image-path}/index_bj.png');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+}
