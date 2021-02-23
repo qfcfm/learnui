@@ -1,4 +1,4 @@
-import axios, { CancelToken, CancelTokenSource } from 'axios';
+import axios, { AxiosRequestConfig, CancelToken, CancelTokenSource } from 'axios';
 import { IUserInfo } from 'store/DataInterface';
 
 function post1(api: string, data: any, func: (success: boolean, rsp: string) => void) {
@@ -13,7 +13,6 @@ function post1(api: string, data: any, func: (success: boolean, rsp: string) => 
             }
         );
 }
-
 
 function post2(api: string, data: any, token: CancelToken, func: (success: boolean, rsp: string) => void) {
     return axios.post(api, data, { cancelToken: token })
@@ -125,3 +124,62 @@ export const api_cancel = (source: CancelTokenSource | null) => {
         source.cancel("abort");
     }
 }
+
+export const api_upload = (file: any, func: (success: boolean, rsp: any) => void) => {
+    let param = new FormData() //创建form对象，私有，无法直接获取，只能通过get来查看其中的元素
+    param.append('file', file)
+    let config: AxiosRequestConfig = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+        transformRequest: [function (data: any) {
+            return data
+        }],
+        onUploadProgress: (progressEvent: any) => {
+            let persent = (progressEvent.loaded / progressEvent.total * 100 | 0)
+            console.log(persent)
+        },
+    }
+    axios.post('/API/func/upload', param, config)
+        .then(response => {
+            var result = response.data
+            if (result.status === 200) {
+                console.log(result)
+            } else {
+                func(false, null);
+            }
+        }).catch(err => {
+            func(false, null);
+        })
+}
+
+export const api_down = (file: any, func: (success: boolean, rsp: any) => void) => {
+    let config: AxiosRequestConfig = {
+        responseType: 'blob',
+        onDownloadProgress: (progressEvent: any) => {
+            let persent = (progressEvent.loaded / progressEvent.total * 100 | 0)
+            console.log(persent)
+        },
+    }
+    axios.get('/API/func/down/' + file, config)
+        .then(response => {
+            let data = response.data
+            if (!data) {
+                return
+            }
+            let url = window.URL.createObjectURL(new Blob([data], { type: response.headers["content-type"] }))
+            
+            let a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = file;
+
+            document.body.appendChild(a);
+            a.click();;
+            window.URL.revokeObjectURL(a.href);
+            document.body.removeChild(a);
+        }).catch(err => {
+            func(false, null);
+        })
+}
+
