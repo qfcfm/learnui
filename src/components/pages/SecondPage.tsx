@@ -8,15 +8,27 @@ class Main extends Component {
         let tar = e.target as HTMLInputElement;
         let file = tar.files![0];
         if (file) {
-            api_upload(file, (bsuc, rsp: any) => {
-
+            api_upload(file, (type, rsp: any) => {
+                if ( type === 'progress') {
+                    console.log(rsp)
+                }else if (type === 'success') {
+                    console.log('上传成功')
+                }else if (type === 'fail') {
+                    console.log('上传失败')
+                }
             });
         }
     }
 
     downfile = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        api_down("SecureCRT_6.7.0.15.7z", (bsuc, rsp: any) => {
-
+        api_down("SecureCRT_6.7.0.15.7z", (type, rsp: any) => {
+            if ( type === 'progress') {
+                console.log(rsp)                    
+            }else if (type === 'success') {
+                console.log('下载成功')
+            }else if (type === 'fail') {
+                console.log('下载失败')
+            }
         });
     }
 

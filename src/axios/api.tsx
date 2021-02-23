@@ -125,7 +125,7 @@ export const api_cancel = (source: CancelTokenSource | null) => {
     }
 }
 
-export const api_upload = (file: any, func: (success: boolean, rsp: any) => void) => {
+export const api_upload = (file: any, func: (type: string, rsp: any) => void) => {
     let param = new FormData() //创建form对象，私有，无法直接获取，只能通过get来查看其中的元素
     param.append('file', file)
     let config: AxiosRequestConfig = {
@@ -137,38 +137,39 @@ export const api_upload = (file: any, func: (success: boolean, rsp: any) => void
         }],
         onUploadProgress: (progressEvent: any) => {
             let persent = (progressEvent.loaded / progressEvent.total * 100 | 0)
-            console.log(persent)
+            func('progress', persent);
         },
     }
     axios.post('/API/func/upload', param, config)
         .then(response => {
             var result = response.data
             if (result.status === 200) {
-                console.log(result)
+                func('success', response)
             } else {
-                func(false, null);
+                func('fail', null);
             }
         }).catch(err => {
-            func(false, null);
+            func('fail', null);
         })
 }
 
-export const api_down = (file: any, func: (success: boolean, rsp: any) => void) => {
+export const api_down = (file: any, func: (type: string, rsp: any) => void) => {
     let config: AxiosRequestConfig = {
         responseType: 'blob',
         onDownloadProgress: (progressEvent: any) => {
             let persent = (progressEvent.loaded / progressEvent.total * 100 | 0)
-            console.log(persent)
+            func('progress', persent);
         },
     }
     axios.get('/API/func/down/' + file, config)
         .then(response => {
             let data = response.data
             if (!data) {
+                func('fail', null);
                 return
             }
             let url = window.URL.createObjectURL(new Blob([data], { type: response.headers["content-type"] }))
-            
+
             let a = document.createElement('a');
             a.style.display = 'none';
             a.href = url;
@@ -178,8 +179,9 @@ export const api_down = (file: any, func: (success: boolean, rsp: any) => void) 
             a.click();;
             window.URL.revokeObjectURL(a.href);
             document.body.removeChild(a);
+            func('success', null);
         }).catch(err => {
-            func(false, null);
+            func('fail', null);
         })
 }
 
