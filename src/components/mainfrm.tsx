@@ -2,7 +2,7 @@ import React from 'react';
 import { ConfigProvider, Layout, Space } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
 import FullScreen from './common/fullscreen';
-import Login from './user/login';
+import UserInfo from './user/userinfo';
 import MenuContent from './menu';
 import Pages from './pages';
 
@@ -18,7 +18,7 @@ const MainFrame = () => {
                     </div>
                     <div className="top-space" >
                         <Space align="center" >
-                            <Login />
+                            <UserInfo />
                             <FullScreen />
                         </Space>
                     </div>

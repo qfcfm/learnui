@@ -45,7 +45,7 @@ export const api_init = (data: any, func: (success: boolean, rsp: IUserInfo | nu
         //     //调用返回失败
         //     func(false, null);
         // }
-        func(true, { name: "cfm", role: "secadmin" });
+        //func(true, { name: "cfm", role: "secadmin" });
     });
     return source;
 }
@@ -125,7 +125,7 @@ export const api_cancel = (source: CancelTokenSource | null) => {
     }
 }
 
-export const api_upload = (file: any, func: (type: string, rsp: any) => void) => {
+export const api_upload = (file: any, func: (result: string, rsp: any) => void) => {
     let param = new FormData() //创建form对象，私有，无法直接获取，只能通过get来查看其中的元素
     param.append('file', file)
     let config: AxiosRequestConfig = {
@@ -153,7 +153,7 @@ export const api_upload = (file: any, func: (type: string, rsp: any) => void) =>
         })
 }
 
-export const api_down = (file: any, func: (type: string, rsp: any) => void) => {
+export const api_down = (file: any, func: (result: string, rsp: any) => void) => {
     let config: AxiosRequestConfig = {
         responseType: 'blob',
         onDownloadProgress: (progressEvent: any) => {

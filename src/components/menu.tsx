@@ -17,13 +17,14 @@ const MenuContent = ({ state, modelDispatch }: IMenuProps) => {
     const [curmod, setMod] = React.useState("");
 
     const initmenu = () => {
-        setMod("首页");
+        
         if (!state.user.name) {
             setMenu([]);
             modelDispatch({});
         } else {
             api_initmenu(null, (success, rsp) => {
                 if (success && rsp) {
+                    setMod(rsp[0]!.name);
                     setMenu(rsp);
                 }
             });

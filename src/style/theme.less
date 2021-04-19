@@ -2,12 +2,11 @@
 
 @vrv-prefix: 'vrv';
 @image-path: '/style/img';
+@vrv-backcolor: #131F2B;
 
-@primary-color: #1890ff; // 全局主色
-//菜单
-// Menu
-// Integration with header element so menu items have the same height
-@menu-item-font-size: 16px;
+//全局
+@primary-color: #1890ff; 
+@font-size-base: 12px;
 
 .@{ant-prefix}-layout-header {
     .@{menu-prefix-cls} {
@@ -17,6 +16,9 @@
     }
 }
 
+//菜单
+@menu-item-font-size: 16px;
+@menu-popup-bg: @vrv-backcolor;
 .@{ant-prefix}-menu {
     &-horizontal {
         border-bottom: none;
@@ -51,3 +53,21 @@
     }
 
 }
+
+//按钮
+@btn-height-base: 24px;
+//@btn-padding-horizontal-base:5px;
+
+//下拉框
+@dropdown-menu-bg: @vrv-backcolor;
+
+//弹出的modal窗口
+@modal-content-bg: @vrv-backcolor;
+@modal-header-bg: @vrv-backcolor;
+@modal-header-padding: 10px;
+@modal-header-title-font-size: 14px;
+@modal-header-title-line-height: 20px;
+@modal-header-close-size: 40px;
+
+//提示框
+@notification-bg: @vrv-backcolor;
