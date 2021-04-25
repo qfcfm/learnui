@@ -45,7 +45,7 @@ export const api_init = (data: any, func: (success: boolean, rsp: IUserInfo | nu
         //     //调用返回失败
         //     func(false, null);
         // }
-        //func(true, { name: "cfm", role: "secadmin" });
+        func(true, { name: "cfm", role: "secadmin" });
     });
     return source;
 }
